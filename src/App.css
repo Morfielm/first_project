@@ -23,6 +23,7 @@
     align-items: center;
     background-color: white;
     border-radius: 12px;
+    overflow: hidden;
 }
 
 .error-container {
@@ -63,4 +64,12 @@
     transition: transform .4s;
     opacity: 0.4;
   }
+  .button-container button:active {
+    transform: scale(0.9);
+    z-index: 1;
+    transition: transform .2s;
+    opacity: 0.4;
+  }
+  
+
   
