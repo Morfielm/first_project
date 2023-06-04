@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./calculator.module.css";
 
 export const Calculator = () => {
   const [calcValue, setCalcValue] = useState("");
@@ -41,87 +42,86 @@ export const Calculator = () => {
     }
     const finalQueue = [...calculatorQueue, +calcValue];
 
-    const result = eval(finalQueue.join(""))
+    let numA = finalQueue.shift();
+    while (finalQueue.length > 0) {
+      const sign = finalQueue.shift();
+      const numB = finalQueue.shift();
+
+      switch (sign) {
+        case "+":
+          numA += numB;
+          break;
+        case "-":
+          numA -= numB;
+          break;
+        default:
+          continue;
+      }
+    }
+
+    const result = numA;
 
     setCalcValue(result);
     setCalculatorQueue([]);
     setCalculated(true);
   };
 
-  const buttons = [
+  const digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+
+  const actions = [
     {
       value: "C",
-      onClick: () => onClickClear(),
-    },
-    {
-      value: "1",
-      onClick: () => onClickDigit("1"),
-    },
-    {
-      value: "2",
-      onClick: () => onClickDigit("2"),
-    },
-    {
-      value: "3",
-      onClick: () => onClickDigit("3"),
+      onClick: onClickClear,
     },
     {
       value: "+",
       onClick: () => onClickPlusMinus("+"),
     },
     {
-      value: "4",
-      onClick: () => onClickDigit("4"),
-    },
-    {
-      value: "5",
-      onClick: () => onClickDigit("5"),
-    },
-    {
-      value: "6",
-      onClick: () => onClickDigit("6"),
-    },
-    {
       value: "-",
       onClick: () => onClickPlusMinus("-"),
     },
     {
-      value: "7",
-      onClick: () => onClickDigit("7"),
-    },
-    {
-      value: "8",
-      onClick: () => onClickDigit("8"),
-    },
-    {
-      value: "9",
-      onClick: () => onClickDigit("9"),
-    },
-    {
       value: "=",
-      onClick: () => onClickEquals(),
-    },
-    {
-      value: "0",
-      onClick: () => onClickDigit("0"),
+      onClick: onClickEquals,
     },
   ];
 
   return (
-    <div className="calculator-container">
+    <div className={styles.calculatorContainer}>
       <h2>Калькулятор</h2>
-      <div className="input-container" style={{color: calculated && 'green'}}>
+      <div
+        className={styles.inputContainer}
+        style={{ color: calculated && "green" }}
+      >
         <span>{calcValue}</span>
       </div>
       {error && (
-        <div className="error-container">
+        <div className={styles.errorContainer}>
           <span>{error}</span>
         </div>
       )}
-      <div className="button-container">
-        {buttons.map((button) => (
-          <button type="button" key={button.value} onClick={button.onClick}>
-            {button.value}
+      <div className={styles.buttonsContainer}>
+        {digits.map((digit) => (
+          <button
+            className={styles.button}
+            type="button"
+            key={digit}
+            onClick={() => onClickDigit(digit)}
+          >
+            {digit}
+          </button>
+        ))}
+      </div>
+      <div className={styles.buttonsContainer}>
+        {actions.map((action) => (
+          <button
+            className={styles.button}
+            type="button"
+            key={action.value}
+            onClick={action.onClick}
+          >
+            {action.value}
           </button>
         ))}
       </div>
