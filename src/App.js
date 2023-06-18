@@ -1,8 +1,8 @@
 import "./App.css";
-import { Calculator } from "./components/calculator";
+import { Tictactoe } from "./components/tictactoe";
 
 function App() {
-  return <Calculator />;
+  return <Tictactoe/>;
 }
 
 export default App;
